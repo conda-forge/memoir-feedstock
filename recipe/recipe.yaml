@@ -1,0 +1,45 @@
+schema_version: 1
+
+context:
+  name: memoir
+  version: 0.0.3
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/memoir-${{ version }}.tar.gz
+  sha256: 1f7fc401da6575f8f03ef7f7147bdecf969499aa41a3532c28cace8fe7237c3d
+
+build:
+  number: 3
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - memoir
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Memoization support.
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/lycantropos/memoir/
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
